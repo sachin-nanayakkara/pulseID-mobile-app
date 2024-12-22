@@ -5,6 +5,7 @@ import { useGetOffersQuery } from '../../services/apiSlice.ts';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { setImages } from '../../redux/slices/dataSlice.ts';
+import OfferCard from '../../components/OfferCard/OfferCard.tsx';
 
 const BREAKPOINTS = {
   sm: '640px',
@@ -13,7 +14,7 @@ const BREAKPOINTS = {
 };
 
 interface MerchantData {
-  id: string; // or number, depending on your data
+  id: string;
   image: string;
   name: string;
   category: {
@@ -22,15 +23,13 @@ interface MerchantData {
 }
 
 interface Merchant {
-  id: string; // Adjust based on the actual type
+  id: string;
   name: string;
-  // Add other merchant-related properties here
 }
 
 interface Offer {
-  id: string; // Adjust based on the actual type
+  id: string;
   merchant: Merchant;
-  // Add other offer-related properties here
 }
 
 const PageContainer = styled.div`
@@ -194,12 +193,12 @@ const CityName = styled.span`
   color: #4b5563;
 `;
 
-const OfferCard = styled.div`
-  background: white;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-`;
+// const OfferCard = styled.div`
+//   background: white;
+//   border-radius: 0.5rem;
+//   overflow: hidden;
+//   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+// `;
 
 const OfferImageContainer = styled.div`
   position: relative;
@@ -383,16 +382,6 @@ const CityOffersLanding = () => {
     navigate(`/landing/`);
   }
 
-  const trendingOffers = [
-    {
-      id: 1,
-      title: 'Parfaiteria bel',
-      rating: 5.6,
-      reviews: 120,
-      image: 'https://ctlstg-cdn.pulseid.com/JER2s24FGy/5d492b58-ff69-4cdb-a362-22ba67000ac4.jpg'
-    }
-  ];
-
   return (
     <PageContainer>
       <Header>
@@ -427,26 +416,41 @@ const CityOffersLanding = () => {
           </CitiesContainer>
         </Section>
 
-        <Section>
-          <SectionTitle>Trending Offer</SectionTitle>
-          {trendingOffers.map((offer) => (
-            <OfferCard key={offer.id}>
-              <OfferImageContainer>
-                <img src={offer.image} alt={offer.title} loading="lazy" />
-                <OfferOverlay>
-                  <OfferTag>Food</OfferTag>
-                  <OfferTitle>{offer.title}</OfferTitle>
-                  <OfferStats>
-                    <span>★ {offer.rating}</span>
-                    <span>•</span>
-                    <span>{offer.reviews} reviews</span>
-                  </OfferStats>
-                </OfferOverlay>
-                <SeeMoreButton>See more</SeeMoreButton>
-              </OfferImageContainer>
-            </OfferCard>
-          ))}
-        </Section>
+        {/*<Section>*/}
+        {/*  <SectionTitle>Trending Offer</SectionTitle>*/}
+        {/*  {trendingOffers.map((offer) => (*/}
+        {/*    <OfferCard key={offer.id}>*/}
+        {/*      <OfferImageContainer>*/}
+        {/*        <img src={offer.image} alt={offer.title} loading="lazy" />*/}
+        {/*        <OfferOverlay>*/}
+        {/*          <OfferTag>Food</OfferTag>*/}
+        {/*          <OfferTitle>{offer.title}</OfferTitle>*/}
+        {/*          <OfferStats>*/}
+        {/*            <span>★ {offer.rating}</span>*/}
+        {/*            <span>•</span>*/}
+        {/*            <span>{offer.reviews} reviews</span>*/}
+        {/*          </OfferStats>*/}
+        {/*        </OfferOverlay>*/}
+        {/*        <SeeMoreButton>See more</SeeMoreButton>*/}
+        {/*      </OfferImageContainer>*/}
+        {/*    </OfferCard>*/}
+        {/*  ))}*/}
+        {/*</Section>*/}
+
+        <OfferCard
+          images={[
+            "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png",
+            "https://ctlstg-cdn.pulseid.com/4zw77DJjPO/929c6859-a985-4749-8ac6-f4db15d9878c.png",
+            "https://ctlstg-cdn.pulseid.com/4zw77DJjPO/929c6859-a985-4749-8ac6-f4db15d9878c.png"
+          ]}
+          title="Parfaiteria bel"
+          location="Tokyo"
+          rating={5.0}
+          reviews={120}
+          onClose={() => console.log('close')}
+          onSeeMore={() => console.log('see more')}
+        />
+
         <SectionTitle>Add card to special offer!</SectionTitle>
         <SpecialOffersCard>
           <SpecialOffersContent>

@@ -39,28 +39,6 @@ const CardImage = styled.img`
   border-radius: 0.5rem;
 `;
 
-const LogoContainer = styled.div`
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: #f97316;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-`;
-
-const LogoArrow = styled.div`
-  width: 0.75rem;
-  height: 0.75rem;
-  border-top: 2px solid white;
-  border-right: 2px solid white;
-  transform: rotate(45deg);
-`;
-
 const LocationTag = styled.div`
   position: absolute;
   top: 1rem;
@@ -220,10 +198,6 @@ const OfferCard: React.FC<OfferCardProps> = ({
           ))}
         </CarouselTrack>
       </CarouselWrapper>
-
-      <LogoContainer>
-        <LogoArrow />
-      </LogoContainer>
 
       <LocationTag>
         <span>{location}</span>

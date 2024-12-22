@@ -200,71 +200,6 @@ const CityName = styled.span`
 //   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 // `;
 
-const OfferImageContainer = styled.div`
-  position: relative;
-  height: 12rem;
-
-  @media (min-width: ${BREAKPOINTS.sm}) {
-    height: 14rem;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
-const OfferOverlay = styled.div`
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-`;
-
-const OfferTag = styled.span`
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border-radius: 0.25rem;
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
-`;
-
-const OfferTitle = styled.h3`
-  color: white;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-`;
-
-const OfferStats = styled.div`
-  display: flex;
-  gap: 0.5rem;
-  color: white;
-  font-size: 0.875rem;
-`;
-
-const SeeMoreButton = styled.button`
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  border: none;
-  cursor: pointer;
-  font-size: 0.875rem;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.9);
-  }
-`;
-
-// Special Offers Components
 const SpecialOffersCard = styled.div`
   background: #fff7ed;
   border-radius: 0.5rem;
@@ -415,28 +350,6 @@ const CityOffersLanding = () => {
             ))}
           </CitiesContainer>
         </Section>
-
-        {/*<Section>*/}
-        {/*  <SectionTitle>Trending Offer</SectionTitle>*/}
-        {/*  {trendingOffers.map((offer) => (*/}
-        {/*    <OfferCard key={offer.id}>*/}
-        {/*      <OfferImageContainer>*/}
-        {/*        <img src={offer.image} alt={offer.title} loading="lazy" />*/}
-        {/*        <OfferOverlay>*/}
-        {/*          <OfferTag>Food</OfferTag>*/}
-        {/*          <OfferTitle>{offer.title}</OfferTitle>*/}
-        {/*          <OfferStats>*/}
-        {/*            <span>★ {offer.rating}</span>*/}
-        {/*            <span>•</span>*/}
-        {/*            <span>{offer.reviews} reviews</span>*/}
-        {/*          </OfferStats>*/}
-        {/*        </OfferOverlay>*/}
-        {/*        <SeeMoreButton>See more</SeeMoreButton>*/}
-        {/*      </OfferImageContainer>*/}
-        {/*    </OfferCard>*/}
-        {/*  ))}*/}
-        {/*</Section>*/}
-
         <OfferCard
           images={[
             "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png",

@@ -1,7 +1,10 @@
-import { Heart } from 'lucide-react';
 import styled from 'styled-components';
 import CategoryButton from "../../components/categoryButton/CategoryButton.tsx";
 import BackButtonComponent from "../../components/BackButton/BackButton.tsx";
+import CardWidget from '../../components/CardWidget/CardWidget.tsx';
+import DotWidget from '../../components/DotWidget/DotWidget.tsx';
+import React, { useEffect, useState } from 'react';
+import { useGetOffersQuery } from '../../services/apiSlice.ts';
 
 const Container = styled.div`
     display: flex;
@@ -9,6 +12,12 @@ const Container = styled.div`
     min-height: 100vh;
     background-color: #f9fafb;
     max-width: 100%;
+`;
+
+const HeaderLine = styled.div`
+    margin-top: -20px;
+    border-radius: 40px;
+    z-index: 1;
 `;
 
 const Header = styled.header`
@@ -47,20 +56,55 @@ const HeaderTitle = styled.h1`
 `;
 
 const MainContent = styled.div`
-    padding: 1.5rem 1rem;
+    padding: 0 1rem 1.5rem; /* Removes top padding */
+`;
+
+const GrayLine = styled.h1`
+    border: none;
+    border-top: 5px solid #d1d5db; /* Light gray */
+    margin: 1rem auto; /* Centers horizontally with auto margins */
+    width: 20%;
+    border-radius: 5px;
+    text-align: center; /* Centers the text if needed */
 `;
 
 const SectionTitle = styled.h2`
     font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: 1rem;
+    text-align: left; /* Aligns text to the left */
+    text-align: left;
 `;
 
 const OfferCard = styled.div`
-    background-color: white;
-    border-radius: 1rem;
-    padding: 1rem;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    background: linear-gradient(135deg,
+    #FFF5E9 0%,
+    #FFE8D9 25%,
+    #FFDCC6 50%,
+    #FFE8D9 75%,
+    #FFF5E9 100%
+    );
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    max-width: 42rem;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg,
+        rgba(255,255,255,0.1) 0%,
+        rgba(255,255,255,0.3) 50%,
+        rgba(255,255,255,0.1) 100%
+        );
+        pointer-events: none;
+    }
 `;
 
 const OfferContent = styled.div`
@@ -81,12 +125,20 @@ const BrandWrapper = styled.div`
 `;
 
 const BrandImage = styled.img`
-    width: 2rem;
+    width: 5rem;
     height: 2rem;
 `;
 
 const BrandName = styled.span`
     font-size: 0.875rem;
+`;
+
+const Image = styled.img`
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
 `;
 
 const OfferTitle = styled.h3`
@@ -130,56 +182,6 @@ const StoreGrid = styled.div`
     gap: 1rem;
 `;
 
-const StoreCard = styled.div`
-    position: relative;
-    background-color: white;
-    border-radius: 0.75rem;
-    overflow: hidden;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-`;
-
-const StoreImage = styled.img`
-    width: 100%;
-    height: 8rem;
-    object-fit: cover;
-`;
-
-const FavoriteButton = styled.button`
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  padding: 0.25rem;
-  border-radius: 9999px;
-  background-color: rgba(255, 255, 255, 0.8);
-`;
-
-const StoreInfo = styled.div`
-  padding: 0.75rem;
-`;
-
-const StoreBrand = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.25rem;
-`;
-
-const StoreLogo = styled.img`
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 9999px;
-`;
-
-const StoreName = styled.h3`
-  font-size: 0.875rem;
-  font-weight: 500;
-`;
-
-const StoreDiscount = styled.p`
-  font-size: 0.75rem;
-  color: #4b5563;
-`;
-
 const TagContainer = styled.div`
   display: flex;
   gap: 0.5rem;
@@ -195,22 +197,59 @@ const Tag = styled.span`
 `;
 
 const Home = () => {
-    const handleButtonClick = (category: string) => {
-        alert(`${category} button clicked!`);
-    };
+    // const { data, error, isLoading } = useGetOffersQuery();
+    //
+    // if (isLoading) return <div>Loading...</div>;
+    // if (error) return <div>Error: </div>;
 
-    const categories = [
-        { name: 'Beauty', icon: '💄' },
-        { name: 'Fitness', icon: '💪' },
-        { name: 'Travel', icon: '✈️' },
-        { name: 'Travel', icon: '✈️' },
-    ];
+
+    // useEffect(() => {
+    //     console.log(data);
+    // }, [data]);
+
+    const [currentSlide, setCurrentSlide] = useState<number>(0);
+    const [merchantDataGet, setMerchantData] = useState<any>([]);
+    const totalSlides = 3;
+
+    const handleDotClick = React.useCallback((index: number) => {
+        setCurrentSlide(index);
+    }, []);
+
+    const handleButtonClick = React.useCallback((category: string) => {
+        const filteredMerchantData = merchantDataGet.filter((merchant: any) =>
+          merchant.category.name.includes(category) // Replace this with your own condition
+        );
+        setMerchantData(filteredMerchantData)
+    }, [merchantDataGet]);
+
+    const handleFavoriteClick =  React.useCallback((storeName: string) => {
+        console.log(`${storeName} added to favorites!`);
+    }, []);
+
+    const { data, error, isLoading } = useGetOffersQuery();
+
+    useEffect(() => {
+        if(data?.offers.length){
+            const merchant = data?.offers.map((offer: any) => offer.merchant)
+            setMerchantData(merchant);
+        }
+    }, [data]);
+
+    useEffect(() => {
+
+        console.log(import.meta.env.VITE_API_KEY);
+    }, []);
+
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error: </div>;
 
     return (
         <Container>
+            <HeaderLine>
+                {console.log(merchantDataGet)}
             <Header>
                 <HeaderImage>
-                    <HeaderImg src="https://jonellepatrick.com/wp-content/uploads/2013/10/5-kabukicho.jpg" alt="Tokyo cityscape" />
+                    <HeaderImg src="https://s3-alpha-sig.figma.com/img/c862/cfa0/8b479bf669f459c69f7c87c13c641f94?Expires=1735516800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kmIeL5gKdbiM5L3gMgngdznYtLU-~uEGEQ9yaLc1ghNoBjlz3DbOteu-mleBD5sOUL6y5P7fktwuXM7UFMJ6PHOal-6M60zWvyb9m1~v9YAsFIxEPzEXpHU~vOMZexXxL9pWUqimc1pOYDaaNnjeY~gCbdXX1LldylAauoQSHlOpWZHNPy7tOxEExahenb2D1dqcR5gaumbKB~XSORMuFxDPFdRCyka2CAOXx9Qy-SyL6idDGpQkDXuUZjbUq9lu77W9D--kHiyQqiWAFyyI78aZrtS8UA43GX9tzX0cK4jK~7sArDg-30XOUfFNnaeWugzM2wWrFsfCzVXgLKakKA__" alt="Tokyo cityscape" />
                 </HeaderImage>
                 <HeaderContent>
                     <BackButtonComponent onClick={() => console.log('Back button clicked')} />
@@ -219,6 +258,7 @@ const Home = () => {
             </Header>
 
             <MainContent>
+                <GrayLine></GrayLine>
                 <SectionTitle>Special Offers!</SectionTitle>
                 <OfferCard>
                     <OfferContent>
@@ -231,57 +271,54 @@ const Home = () => {
                             <DiscountText>Up to 9% discount</DiscountText>
                             <ViewMoreButton>View More</ViewMoreButton>
                         </OfferInfo>
-                        <BrandImage
-                            src="/api/placeholder/100/100"
+                        <Image
+                            src="/api/placeholder/30/30"
                             alt="Beauty product"
-                            style={{ width: '6rem', height: '6rem', borderRadius: '50%' }}
+                            style={{ width: '6rem', height: '100%' }}
                         />
                     </OfferContent>
                 </OfferCard>
 
+                <DotWidget
+                  total={totalSlides}
+                  current={currentSlide}
+                  onDotClick={handleDotClick}
+                />
+
                 <CategorySection>
                     <SectionTitle>Explore Tokyo's Best Category</SectionTitle>
                     <CategoryList>
-                        {categories.map((cat) => (
+                        {merchantDataGet.map((cat : any) => (
                             <CategoryButton
-                                key={cat.name}
-                                category={cat.name}
-                                icon={cat.icon}
-                                onClick={() => handleButtonClick(cat.name)}
+                                key={cat.category.name}
+                                category={cat.category.name}
+                                icon={cat.image}
+                                onClick={() => handleButtonClick(cat.category.name)}
                             />
                         ))}
                     </CategoryList>
                 </CategorySection>
 
                 <StoreGrid>
-                    {[
-                        { name: 'Parfaiteria Bel', category: 'Dessert' },
-                        { name: 'Muji', category: 'Retail' },
-                        { name: 'Shiseido', category: 'Beauty' },
-                        { name: 'Kosé', category: 'Beauty' }
-                    ].map((store) => (
+                    {merchantDataGet.map((store : any) => (
                         <div>
-                        <StoreCard key={store.name}>
-                            <StoreImage src="/api/placeholder/200/200" alt={store.name} />
-                            <FavoriteButton>
-                                <Heart size={16} />
-                            </FavoriteButton>
-                            <StoreInfo>
-                                <StoreBrand>
-                                    <StoreLogo src="/api/placeholder/20/20" alt={store.name} />
-                                    <StoreName>{store.name}</StoreName>
-                                </StoreBrand>
-                                <StoreDiscount>Get instant discounts with card</StoreDiscount>
-                            </StoreInfo>
-                        </StoreCard>
+                            <CardWidget
+                              key={store.category.name}
+                              storeImageSrc={store.image}
+                              storeName={store.category.name}
+                              storeLogoSrc={store.image}
+                              discountText={store.discount}
+                              onFavoriteClick={() => handleFavoriteClick(store.image)}
+                            />
                             <TagContainer>
-                                <Tag>{store.category}</Tag>
+                                <Tag>Desert</Tag>
                                 <Tag>Exclusive</Tag>
                             </TagContainer>
                         </div>
                     ))}
                 </StoreGrid>
             </MainContent>
+            </HeaderLine>
         </Container>
     );
 };

@@ -32,7 +32,7 @@ const IconWrapper = styled.div`
     color: rgb(234 88 12);
 `;
 
-interface CategoryButtonProps {
+type CategoryButtonProps = {
     category: string;
     icon?: React.ReactNode;
     onClick?: () => void;
@@ -42,7 +42,12 @@ interface CategoryButtonProps {
 const CategoryButton: React.FC<CategoryButtonProps> = ({ category, icon = '', onClick, className }) => {
     return (
         <StyledButton onClick={onClick} className={className}>
-            <IconWrapper>{icon}</IconWrapper>
+            <IconWrapper style={{    backgroundImage: "url(" + `${icon}` + ")",
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat'
+            }}
+            ></IconWrapper>
             {category}
         </StyledButton>
     );

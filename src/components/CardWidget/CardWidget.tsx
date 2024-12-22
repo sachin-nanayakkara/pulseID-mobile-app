@@ -1,23 +1,16 @@
-import React from "react";
-import styled from "styled-components";
-import {Heart} from "lucide-react";
-
-// Define the type for StoreCard props
-type Store = {
-    name: string;
-    category: string;
-    image: string;
-    logo: string;
-    discountText: string;
-};
+import React from 'react';
+import styled from 'styled-components';
+import { Heart } from 'lucide-react';
 
 type StoreCardProps = {
-    store: Store;
-    onFavoriteClick?: (storeName: string) => void;
-};
+  storeImageSrc: string;
+  storeName: string;
+  storeLogoSrc: string;
+  discountText?: string;
+  onFavoriteClick: () => void;
+}
 
-// Styled Components
-const Card = styled.div`
+const StoreCardWrapper = styled.div`
     position: relative;
     background-color: white;
     border-radius: 0.75rem;
@@ -25,80 +18,90 @@ const Card = styled.div`
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 `;
 
-const Image = styled.img`
+const ImageContainer = styled.div`
+    position: relative;
     width: 100%;
     height: 8rem;
+`;
+
+const StoreImage = styled.img`
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 `;
 
-const FavoriteButton = styled.button`
+const StoreInfo = styled.div`
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    padding: 0.25rem;
-    border-radius: 9999px;
-    background-color: rgba(255, 255, 255, 0.8);
-`;
-
-const Info = styled.div`
+    bottom: 0;
+    left: 0;
+    right: 0;
     padding: 0.75rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
 `;
 
-const Brand = styled.div`
+const StoreBrand = styled.div`
     display: flex;
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 0.25rem;
 `;
 
-const Logo = styled.img`
+const StoreLogo = styled.img`
     width: 1.25rem;
     height: 1.25rem;
     border-radius: 9999px;
 `;
 
-const Name = styled.h3`
+const StoreName = styled.h3`
     font-size: 0.875rem;
     font-weight: 500;
+    color: white;
 `;
 
-const Discount = styled.p`
-    font-size: 0.75rem;
-    color: #4b5563;
+// const StoreDiscount = styled.p`
+//     font-size: 0.75rem;
+//     color: rgb(229, 231, 235);
+// `;
+
+const FavoriteButton = styled.button`
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.25rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.8);
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: white;
+  }
 `;
 
-const TagContainer = styled.div`
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-`;
+const CardWidget: React.FC<StoreCardProps> = ({
+                                                storeImageSrc,
+                                                storeName,
+                                                storeLogoSrc,
+                                                onFavoriteClick,
+                                              }) => {
+  return (
+    <StoreCardWrapper>
+      <ImageContainer>
+        <StoreImage src={storeImageSrc} alt={storeName} />
 
-const Tag = styled.div`
-    background-color: #f3f4f6;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-`;
+        <StoreInfo>
+          <StoreBrand>
+            <StoreLogo src={storeLogoSrc} alt={storeName} />
+            <StoreName>{storeName}</StoreName>
+          </StoreBrand>
+          {/*<StoreDiscount>{discountText}</StoreDiscount>*/}
+        </StoreInfo>
 
-const CardWidget: React.FC<StoreCardProps> = ({ store, onFavoriteClick }) => {
-    return (
-        <Card>
-            <Image src={store.image} alt={store.name} />
-            <FavoriteButton onClick={() => onFavoriteClick?.(store.name)}>
-                <Heart size={16} />
-            </FavoriteButton>
-            <Info>
-                <Brand>
-                    <Logo src={store.logo} alt={store.name} />
-                    <Name>{store.name}</Name>
-                </Brand>
-                <Discount>{store.discountText}</Discount>
-            </Info>
-            <TagContainer>
-                <Tag>{store.category}</Tag>
-                <Tag>Exclusive</Tag>
-            </TagContainer>
-        </Card>
-    );
+        <FavoriteButton onClick={onFavoriteClick}>
+          <Heart size={16} color="#374151" />
+        </FavoriteButton>
+      </ImageContainer>
+    </StoreCardWrapper>
+  );
 };
+
 export default CardWidget;

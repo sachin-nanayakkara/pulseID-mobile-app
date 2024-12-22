@@ -1,11 +1,19 @@
-import { useRef, useState, TouchEvent } from 'react';
+import { useRef, useState, TouchEvent, useEffect } from 'react';
 import { Heart, ChevronLeft } from 'lucide-react';
 import styled from 'styled-components';
+import { useNavigate, useParams } from 'react-router';
+import { useSelector } from 'react-redux';
 
 interface ImageSlideProps {
-  $active: boolean;
-  $sliding: boolean;
-  $offset: number;
+  $active?: boolean;
+  $sliding?: boolean;
+  $offset?: number;
+}
+
+interface ImageItem {
+  id: number;
+  name: string;
+  images: string;
 }
 
 interface NavigationButtonProps {
@@ -286,6 +294,12 @@ const NavigationButton = styled.button<NavigationButtonProps>`
 `;
 
 const CityOfferDetailLanding = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  // @ts-ignore
+  const items = useSelector((state) => state.images.items);
+
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
@@ -294,15 +308,10 @@ const CityOfferDetailLanding = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isFavorited, setIsFavorited] = useState<boolean>(false);
 
-  const images: Image[] = [
-    { id: 1, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "Sushi platter" },
-    { id: 2, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "Ice cream dessert" },
-    { id: 3, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "Cocktail" },
-    { id: 4, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "Cake" },
-    { id: 5, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "More items" },
-    { id: 6, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "More items" },
-    { id: 7, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "More items" }
-  ];
+  useEffect(() => {
+    const itemIndex = items.findIndex((item: { id: number; }) => item.id === Number(id));
+    handleImageClick(itemIndex);
+  }, []);
 
   const minSwipeDistance = 50;
 
@@ -341,7 +350,7 @@ const CityOfferDetailLanding = () => {
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
 
-    if (isLeftSwipe && currentIndex < images.length - 1) {
+    if (isLeftSwipe && currentIndex < items.length - 1) {
       setCurrentIndex(current => current + 1);
     } else if (isRightSwipe && currentIndex > 0) {
       setCurrentIndex(current => current - 1);
@@ -354,15 +363,15 @@ const CityOfferDetailLanding = () => {
   };
 
   const handlePrevious = () => {
-    setCurrentIndex(current => (current > 0 ? current - 1 : images.length - 1));
+    setCurrentIndex(current => (current > 0 ? current - 1 : items.length - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex(current => (current < images.length - 1 ? current + 1 : 0));
+    setCurrentIndex(current => (current < items.length - 1 ? current + 1 : 0));
   };
 
   const handleBack = () => {
-    console.log('Back button clicked');
+    navigate(`/`);
   };
 
   const handleFavorite = () => {
@@ -397,14 +406,14 @@ const CityOfferDetailLanding = () => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {images.map((image, index) => (
+        {items.map((image : ImageItem, index: number) => (
           <ImageSlide
             key={image.id}
             $sliding={isDragging}
             $offset={parseFloat(getImageOffset(index))}
             style={{ transform: `translateX(${getImageOffset(index)})` }}
           >
-            <Image src={image.src} alt={image.alt} draggable="false" />
+            <Image src={image.images} alt={image.name} draggable="false" />
           </ImageSlide>
         ))}
       </MainImageContainer>
@@ -417,7 +426,7 @@ const CityOfferDetailLanding = () => {
       </NavigationButton>
 
       <DotsContainer>
-        {images.map((_, index) => (
+        {items.map((_: ImageItem, index: number) => (
           <Dot
             key={index}
             $active={currentIndex === index}
@@ -429,16 +438,16 @@ const CityOfferDetailLanding = () => {
 
       <ThumbnailContainer>
         <ThumbnailScroll>
-          {images.map((image, index) => (
+          {items.map((image: ImageItem, index: number) => (
             <ThumbnailButton
               key={image.id}
               onClick={() => handleImageClick(index)}
               $active={currentIndex === index}
             >
-              <ThumbnailImage src={image.src} alt={image.alt} />
-              {index === images.length - 1 && (
+              <ThumbnailImage src={image.images} alt={image.name} />
+              {index === items.length - 1 && (
                 <MoreItemsOverlay>
-                  <MoreItemsText>+{images.length - 4}</MoreItemsText>
+                  <MoreItemsText>+{items.length - 10}</MoreItemsText>
                 </MoreItemsOverlay>
               )}
             </ThumbnailButton>

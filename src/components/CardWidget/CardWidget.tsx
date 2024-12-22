@@ -104,4 +104,4 @@ const CardWidget: React.FC<StoreCardProps> = ({
   );
 };
 
-export default CardWidget;
+export default React.memo(CardWidget);

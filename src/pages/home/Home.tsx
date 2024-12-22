@@ -5,6 +5,16 @@ import CardWidget from '../../components/CardWidget/CardWidget.tsx';
 import DotWidget from '../../components/DotWidget/DotWidget.tsx';
 import React, { useEffect, useState } from 'react';
 import { useGetOffersQuery } from '../../services/apiSlice.ts';
+import { useNavigate } from 'react-router';
+
+interface MerchantData {
+    id: string;
+    image: string;
+    name: string;
+    category: {
+        name: string;
+    };
+}
 
 const Container = styled.div`
     display: flex;
@@ -198,16 +208,25 @@ const Tag = styled.span`
 
 const Home = () => {
     const totalSlides = 3;
+    const navigate = useNavigate();
     const [currentSlide, setCurrentSlide] = useState<number>(0);
-    const [merchantDataGet, setMerchantData] = useState<any>([]);
+    const [merchantDataGet, setMerchantData] = useState<MerchantData[]>([]);
 
     const handleDotClick = React.useCallback((index: number) => {
         setCurrentSlide(index);
     }, []);
 
+    const handleButton = (id : string) => {
+        navigate(`/landing/${id}`);
+    };
+
+    const handleButtonNavigate = () => {
+        navigate(`/`);
+    }
+
     const handleButtonClick = React.useCallback((category: string) => {
-        const filteredMerchantData = merchantDataGet.filter((merchant: any) =>
-          merchant.category.name.includes(category) // Replace this with your own condition
+        const filteredMerchantData = merchantDataGet.filter((merchant) =>
+          merchant.category.name.includes(category)
         );
         setMerchantData(filteredMerchantData)
     }, [merchantDataGet]);
@@ -220,15 +239,10 @@ const Home = () => {
 
     useEffect(() => {
         if(data?.offers.length){
-            const merchant = data?.offers.map((offer: any) => offer.merchant)
+            const merchant = data?.offers.map((offer: any) => offer?.merchant)
             setMerchantData(merchant);
         }
     }, [data]);
-
-    useEffect(() => {
-
-        console.log(import.meta.env.VITE_API_KEY);
-    }, []);
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error: </div>;
@@ -241,7 +255,7 @@ const Home = () => {
                     <HeaderImg src="https://s3-alpha-sig.figma.com/img/c862/cfa0/8b479bf669f459c69f7c87c13c641f94?Expires=1735516800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kmIeL5gKdbiM5L3gMgngdznYtLU-~uEGEQ9yaLc1ghNoBjlz3DbOteu-mleBD5sOUL6y5P7fktwuXM7UFMJ6PHOal-6M60zWvyb9m1~v9YAsFIxEPzEXpHU~vOMZexXxL9pWUqimc1pOYDaaNnjeY~gCbdXX1LldylAauoQSHlOpWZHNPy7tOxEExahenb2D1dqcR5gaumbKB~XSORMuFxDPFdRCyka2CAOXx9Qy-SyL6idDGpQkDXuUZjbUq9lu77W9D--kHiyQqiWAFyyI78aZrtS8UA43GX9tzX0cK4jK~7sArDg-30XOUfFNnaeWugzM2wWrFsfCzVXgLKakKA__" alt="Tokyo cityscape" />
                 </HeaderImage>
                 <HeaderContent>
-                    <BackButtonComponent onClick={() => console.log('Back button clicked')} />
+                    <BackButtonComponent onClick={() => handleButtonNavigate()} />
                     <HeaderTitle>Tokyo</HeaderTitle>
                 </HeaderContent>
             </Header>
@@ -277,7 +291,7 @@ const Home = () => {
                 <CategorySection>
                     <SectionTitle>Explore Tokyo's Best Category</SectionTitle>
                     <CategoryList>
-                        {merchantDataGet.map((cat : any) => (
+                        {merchantDataGet.map((cat : MerchantData) => (
                             <CategoryButton
                                 key={cat.category.name}
                                 category={cat.category.name}
@@ -290,7 +304,7 @@ const Home = () => {
 
                 <StoreGrid>
                     {merchantDataGet.map((store : any) => (
-                        <div>
+                        <div onClick={() => handleButton(store.id)}>
                             <CardWidget
                               key={store.category.name}
                               storeImageSrc={store.image}

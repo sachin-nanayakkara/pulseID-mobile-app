@@ -1,11 +1,37 @@
 import styled from 'styled-components';
 import { ChevronRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useGetOffersQuery } from '../../services/apiSlice.ts';
+import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { setImages } from '../../redux/slices/dataSlice.ts';
 
 const BREAKPOINTS = {
   sm: '640px',
   md: '768px',
   lg: '1024px',
 };
+
+interface MerchantData {
+  id: string; // or number, depending on your data
+  image: string;
+  name: string;
+  category: {
+    name: string;
+  };
+}
+
+interface Merchant {
+  id: string; // Adjust based on the actual type
+  name: string;
+  // Add other merchant-related properties here
+}
+
+interface Offer {
+  id: string; // Adjust based on the actual type
+  merchant: Merchant;
+  // Add other offer-related properties here
+}
 
 const PageContainer = styled.div`
   width: 100%;
@@ -307,17 +333,55 @@ const AddCardButton = styled.button`
   }
 `;
 
+interface ImageItem {
+  id: number;
+  name: string;
+  images: string;  // Expecting an array of images
+}
+
 const CityOffersLanding = () => {
-  const cities = [
-    { name: 'Hokkaido', image: 'https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png' },
-    { name: 'Tokyo', image: 'https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png' },
-    { name: 'Osaka', image: 'https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png' },
-    { name: 'Kyoto', image: 'https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png' },
-    { name: 'Kyoto1', image: 'https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png' },
-    { name: 'Kyoto2', image: 'https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png' },
-    { name: 'Kyoto3', image: 'https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png' },
-    { name: 'Kyoto4', image: 'https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png' },
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const imageData = [
+    {
+      id: 626,
+      name: "Product 1",
+      images: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png",
+    },
   ];
+
+  const [merchantDataGet, setMerchantData] = useState<MerchantData[]>([]);
+
+  const { data, error, isLoading } = useGetOffersQuery();
+
+  useEffect(() => {
+    if(data?.offers.length){
+
+      const merchantData: ImageItem[] = data.offers.map((offer: { merchant: { id: number; name: string; image: string; }; }) => ({
+        id: offer.merchant.id,
+        name: offer.merchant.name,
+        images: offer.merchant.image,
+      }));
+
+      const merchant = data?.offers.map((offer: Offer) => offer.merchant)
+      setMerchantData(merchant);
+      dispatch(setImages(merchantData));
+      console.log('merchantData', merchantData);
+    }
+  }, [data]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: </div>;
+
+  const handleButton = (id : string) => {
+    dispatch(setImages(imageData));
+    navigate(`/landing/${id}`);
+  };
+
+  const handleButtonNavigate = () => {
+    navigate(`/landing/`);
+  }
 
   const trendingOffers = [
     {
@@ -348,16 +412,16 @@ const CityOffersLanding = () => {
         <Section>
           <SectionHeader>
             <SectionTitle>Discover your city!</SectionTitle>
-            <ViewAllButton>View All</ViewAllButton>
+            <ViewAllButton onClick={() => handleButtonNavigate()}>View All</ViewAllButton>
           </SectionHeader>
 
           <CitiesContainer>
-            {cities.map((city) => (
-              <CityItem key={city.name}>
-                <CityImage>
+            {merchantDataGet.map((city) => (
+              <CityItem key={city.category.name}>
+                <CityImage onClick={() => handleButton(city.id)}>
                   <img src={city.image} alt={city.name} loading="lazy" />
                 </CityImage>
-                <CityName>{city.name}</CityName>
+                <CityName>{city.category.name}</CityName>
               </CityItem>
             ))}
           </CitiesContainer>

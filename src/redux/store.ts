@@ -4,7 +4,7 @@ import dataReducer from './slices/dataSlice';
 
 const store = configureStore({
   reducer: {
-    data: dataReducer,
+    images: dataReducer,
     [api.reducerPath]: api.reducer, // Add the API reducer
   },
   middleware: (getDefaultMiddleware) =>

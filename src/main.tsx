@@ -9,8 +9,6 @@ import theme from "./theme";
 import store from './redux/store.ts';
 import { Provider } from 'react-redux';
 import { CustomThemeProvider } from './utils/contexts/ThemeContext.tsx';
-// import { Provider } from 'react-redux';
-// import store from './store.ts';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>

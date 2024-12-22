@@ -1,0 +1,464 @@
+import { useRef, useState, TouchEvent } from 'react';
+import { Heart, ChevronLeft } from 'lucide-react';
+import styled from 'styled-components';
+
+interface ImageSlideProps {
+  $active: boolean;
+  $sliding: boolean;
+  $offset: number;
+}
+
+interface NavigationButtonProps {
+  $position: 'left' | 'right';
+}
+
+interface Image {
+  id: number;
+  src: string;
+  alt: string;
+}
+
+const NavigationHeader = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 20;
+    background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%);
+    height: 56px;
+`;
+
+const CircleButton = styled.button`
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+    &:active {
+        background: rgba(255, 255, 255, 0.85);
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+        color: #1a1a1a;
+    }
+`;
+
+const PageTitle = styled.h1`
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  position: absolute;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+`;
+
+
+const CarouselContainer = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+  margin: 0 auto;
+  height: 100vh;
+
+  @media (min-width: 768px) {
+    max-width: 32rem;
+    height: auto;
+  }
+`;
+
+const MainImageContainer = styled.div`
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000;
+    touch-action: pan-y pinch-zoom;
+
+    @media (min-width: 768px) {
+        height: 24rem;
+    }
+`;
+
+const ImageSlide = styled.div<ImageSlideProps>`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform ${(props) => (props.$sliding ? '0ms' : '300ms')} ease-in-out;
+    transform: translateX(${(props) => props.$offset}px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const Image = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    @media (max-width: 767px) {
+        max-height: 100vh;
+        object-position: center;
+    }
+
+    @media (min-width: 768px) {
+        object-fit: cover;
+    }
+`;
+
+const DotsContainer = styled.div`
+    position: fixed;
+    bottom: 6rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    z-index: 10;
+
+    @media (min-width: 768px) {
+        position: absolute;
+    }
+`;
+
+const Dot = styled.button<ImageSlideProps>`
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    transition: background-color 200ms;
+    background-color: ${props => (props.$active ? 'white' : 'rgb(156 163 175)')};
+    border: none;
+    padding: 0;
+    cursor: pointer;
+`;
+
+const ThumbnailContainer = styled.div`
+    position: fixed;
+    bottom: 10rem;
+    left: 0;
+    right: 0;
+    padding: 0 1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+
+    @media (min-width: 768px) {
+        position: absolute;
+        background: none;
+    }
+`;
+
+const ThumbnailScroll = styled.div`
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.5rem 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+`;
+
+const ThumbnailButton = styled.button<ImageSlideProps>`
+    flex-shrink: 0;
+    position: relative;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    ${props => props.$active && `outline: 2px solid white; outline-offset: 2px;`}
+`;
+
+const ThumbnailImage = styled.img`
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+
+    @media (min-width: 768px) {
+        width: 4rem;
+        height: 4rem;
+    }
+`;
+
+const MoreItemsOverlay = styled.div`
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const MoreItemsText = styled.span`
+    color: white;
+    font-size: 0.875rem;
+`;
+
+const DiscountBanner = styled.div`
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 1rem;
+    backdrop-filter: blur(4px);
+
+    @media (min-width: 768px) {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: none;
+    }
+`;
+
+const BannerContent = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 32rem;
+    margin: 0 auto;
+`;
+
+const Logo = styled.div`
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    background-color: rgb(229 231 235);
+    flex-shrink: 0;
+`;
+
+const BannerText = styled.div`
+    flex: 1;
+`;
+
+const StoreName = styled.p`
+    font-weight: 500;
+    margin: 0;
+`;
+
+const DiscountText = styled.p`
+    font-size: 0.875rem;
+    margin: 0.25rem 0 0;
+`;
+
+const NavigationButton = styled.button<NavigationButtonProps>`
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    ${(props) => (props.$position === 'left' ? 'left: 1rem;' : 'right: 1rem;')}
+
+    @media (max-width: 767px) {
+    display: none;
+}
+`;
+
+const CityOfferDetailLanding = () => {
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [dragOffset, setDragOffset] = useState<number>(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [isFavorited, setIsFavorited] = useState<boolean>(false);
+
+  const images: Image[] = [
+    { id: 1, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "Sushi platter" },
+    { id: 2, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "Ice cream dessert" },
+    { id: 3, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "Cocktail" },
+    { id: 4, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "Cake" },
+    { id: 5, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "More items" },
+    { id: 6, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "More items" },
+    { id: 7, src: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png", alt: "More items" }
+  ];
+
+  const minSwipeDistance = 50;
+
+  const handleImageClick = (index: number) => {
+    if (!isDragging) {
+      setCurrentIndex(index);
+    }
+  };
+
+  const handleTouchStart = (e: TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+    setIsDragging(true);
+    setDragOffset(0);
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    if (!touchStart) return;
+
+    const currentTouch = e.touches[0].clientX;
+    const diff = touchStart - currentTouch;
+
+    const containerWidth = containerRef.current?.offsetWidth || 0;
+    const boundedDiff = Math.max(Math.min(diff, containerWidth), -containerWidth);
+    setDragOffset(-boundedDiff);
+    setTouchEnd(currentTouch);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) {
+      setIsDragging(false);
+      setDragOffset(0);
+      return;
+    }
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && currentIndex < images.length - 1) {
+      setCurrentIndex(current => current + 1);
+    } else if (isRightSwipe && currentIndex > 0) {
+      setCurrentIndex(current => current - 1);
+    }
+
+    setTouchStart(null);
+    setTouchEnd(null);
+    setIsDragging(false);
+    setDragOffset(0);
+  };
+
+  const handlePrevious = () => {
+    setCurrentIndex(current => (current > 0 ? current - 1 : images.length - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex(current => (current < images.length - 1 ? current + 1 : 0));
+  };
+
+  const handleBack = () => {
+    console.log('Back button clicked');
+  };
+
+  const handleFavorite = () => {
+    setIsFavorited(!isFavorited);
+  };
+
+  const getImageOffset = (index: number): string => {
+    const baseOffset = (index - currentIndex) * 100;
+    const containerWidth = containerRef.current?.offsetWidth || 0;
+    const percentageDragOffset = (dragOffset / containerWidth) * 100;
+    return `${baseOffset + percentageDragOffset}%`;
+  };
+
+  return (
+    <CarouselContainer>
+      <NavigationHeader>
+        <CircleButton onClick={handleBack} aria-label="Go back">
+          <ChevronLeft size={24} />
+        </CircleButton>
+        <CircleButton
+          onClick={handleFavorite}
+          aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          <Heart fill={isFavorited ? '#000' : 'none'} />
+        </CircleButton>
+      </NavigationHeader>
+
+      <PageTitle>Dessert</PageTitle>
+      <MainImageContainer
+        ref={containerRef}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {images.map((image, index) => (
+          <ImageSlide
+            key={image.id}
+            $sliding={isDragging}
+            $offset={parseFloat(getImageOffset(index))}
+            style={{ transform: `translateX(${getImageOffset(index)})` }}
+          >
+            <Image src={image.src} alt={image.alt} draggable="false" />
+          </ImageSlide>
+        ))}
+      </MainImageContainer>
+
+      <NavigationButton onClick={handlePrevious} $position="left" aria-label="Previous image">
+        ←
+      </NavigationButton>
+      <NavigationButton onClick={handleNext} $position="right" aria-label="Next image">
+        →
+      </NavigationButton>
+
+      <DotsContainer>
+        {images.map((_, index) => (
+          <Dot
+            key={index}
+            $active={currentIndex === index}
+            onClick={() => handleImageClick(index)}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </DotsContainer>
+
+      <ThumbnailContainer>
+        <ThumbnailScroll>
+          {images.map((image, index) => (
+            <ThumbnailButton
+              key={image.id}
+              onClick={() => handleImageClick(index)}
+              $active={currentIndex === index}
+            >
+              <ThumbnailImage src={image.src} alt={image.alt} />
+              {index === images.length - 1 && (
+                <MoreItemsOverlay>
+                  <MoreItemsText>+{images.length - 4}</MoreItemsText>
+                </MoreItemsOverlay>
+              )}
+            </ThumbnailButton>
+          ))}
+        </ThumbnailScroll>
+      </ThumbnailContainer>
+
+      <DiscountBanner>
+        <BannerContent>
+          <Logo />
+          <BannerText>
+            <StoreName>Parfaiteria Bel</StoreName>
+            <DiscountText>
+              Enjoy an instant 10% discount on purchases of ¥8,000 with your card
+            </DiscountText>
+          </BannerText>
+        </BannerContent>
+      </DiscountBanner>
+    </CarouselContainer>
+  );
+};
+
+export default CityOfferDetailLanding;

@@ -6,8 +6,9 @@ import './index.css'
 import App from './App.tsx'
 
 import theme from "./theme";
-import store from './store.ts';
+import store from './redux/store.ts';
 import { Provider } from 'react-redux';
+import { CustomThemeProvider } from './utils/contexts/ThemeContext.tsx';
 // import { Provider } from 'react-redux';
 // import store from './store.ts';
 
@@ -15,7 +16,9 @@ createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
+          <CustomThemeProvider>
             <App/>
+          </CustomThemeProvider>
         </ThemeProvider>
       </Provider>,
     </StrictMode>,

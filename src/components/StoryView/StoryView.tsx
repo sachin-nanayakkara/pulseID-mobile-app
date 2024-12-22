@@ -66,7 +66,7 @@ const StoryView: React.FC<CitiesProps> = ({ cities }) => {
       {cities.map((city, index) => (
         <CityItem key={city.name} onClick={() => handleCityClick(index)}>
           <CityImage>
-            <img src={city.image} alt={city.name} />
+            <img src={city.image} alt={city.name} loading="lazy" />
           </CityImage>
           <CityName>{city.name}</CityName>
         </CityItem>

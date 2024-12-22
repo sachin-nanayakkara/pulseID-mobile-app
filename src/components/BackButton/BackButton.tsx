@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ChevronLeft } from 'lucide-react'; // You can import any icon library you're using
+import { ChevronLeft } from 'lucide-react';
 
-// Define the styled button component
 const BackButton = styled.button`
     padding: 0.5rem;
     border-radius: 9999px;

@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 import { ChevronRight } from 'lucide-react';
 
-// Breakpoints
 const BREAKPOINTS = {
   sm: '640px',
   md: '768px',
   lg: '1024px',
 };
 
-// Container Components
 const PageContainer = styled.div`
   width: 100%;
   max-width: 28rem;
@@ -84,7 +82,6 @@ const Avatar = styled.div`
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 `;
 
-// Main Content Components
 const MainContent = styled.main`
   padding-top: 4rem;
   padding: 4rem 1rem 1rem 1rem;
@@ -132,7 +129,6 @@ const ViewAllButton = styled.button`
   }
 `;
 
-// Cities Section Components
 const CitiesContainer = styled.div`
   display: flex;
   gap: 1rem;
@@ -172,7 +168,6 @@ const CityName = styled.span`
   color: #4b5563;
 `;
 
-// Trending Offers Components
 const OfferCard = styled.div`
   background: white;
   border-radius: 0.5rem;
@@ -330,7 +325,7 @@ const CityOffersLanding = () => {
       title: 'Parfaiteria bel',
       rating: 5.6,
       reviews: 120,
-      image: '/api/placeholder/300/200'
+      image: 'https://ctlstg-cdn.pulseid.com/JER2s24FGy/5d492b58-ff69-4cdb-a362-22ba67000ac4.jpg'
     }
   ];
 
@@ -360,7 +355,7 @@ const CityOffersLanding = () => {
             {cities.map((city) => (
               <CityItem key={city.name}>
                 <CityImage>
-                  <img src={city.image} alt={city.name} />
+                  <img src={city.image} alt={city.name} loading="lazy" />
                 </CityImage>
                 <CityName>{city.name}</CityName>
               </CityItem>
@@ -373,7 +368,7 @@ const CityOffersLanding = () => {
           {trendingOffers.map((offer) => (
             <OfferCard key={offer.id}>
               <OfferImageContainer>
-                <img src={offer.image} alt={offer.title} />
+                <img src={offer.image} alt={offer.title} loading="lazy" />
                 <OfferOverlay>
                   <OfferTag>Food</OfferTag>
                   <OfferTitle>{offer.title}</OfferTitle>

@@ -56,23 +56,23 @@ const HeaderTitle = styled.h1`
 `;
 
 const MainContent = styled.div`
-    padding: 0 1rem 1.5rem; /* Removes top padding */
+    padding: 0 1rem 1.5rem; 
 `;
 
 const GrayLine = styled.h1`
     border: none;
-    border-top: 5px solid #d1d5db; /* Light gray */
-    margin: 1rem auto; /* Centers horizontally with auto margins */
+    border-top: 5px solid #d1d5db; 
+    margin: 1rem auto; 
     width: 20%;
     border-radius: 5px;
-    text-align: center; /* Centers the text if needed */
+    text-align: center; 
 `;
 
 const SectionTitle = styled.h2`
     font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: 1rem;
-    text-align: left; /* Aligns text to the left */
+    text-align: left; 
     text-align: left;
 `;
 
@@ -197,19 +197,9 @@ const Tag = styled.span`
 `;
 
 const Home = () => {
-    // const { data, error, isLoading } = useGetOffersQuery();
-    //
-    // if (isLoading) return <div>Loading...</div>;
-    // if (error) return <div>Error: </div>;
-
-
-    // useEffect(() => {
-    //     console.log(data);
-    // }, [data]);
-
+    const totalSlides = 3;
     const [currentSlide, setCurrentSlide] = useState<number>(0);
     const [merchantDataGet, setMerchantData] = useState<any>([]);
-    const totalSlides = 3;
 
     const handleDotClick = React.useCallback((index: number) => {
         setCurrentSlide(index);
@@ -246,7 +236,6 @@ const Home = () => {
     return (
         <Container>
             <HeaderLine>
-                {console.log(merchantDataGet)}
             <Header>
                 <HeaderImage>
                     <HeaderImg src="https://s3-alpha-sig.figma.com/img/c862/cfa0/8b479bf669f459c69f7c87c13c641f94?Expires=1735516800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kmIeL5gKdbiM5L3gMgngdznYtLU-~uEGEQ9yaLc1ghNoBjlz3DbOteu-mleBD5sOUL6y5P7fktwuXM7UFMJ6PHOal-6M60zWvyb9m1~v9YAsFIxEPzEXpHU~vOMZexXxL9pWUqimc1pOYDaaNnjeY~gCbdXX1LldylAauoQSHlOpWZHNPy7tOxEExahenb2D1dqcR5gaumbKB~XSORMuFxDPFdRCyka2CAOXx9Qy-SyL6idDGpQkDXuUZjbUq9lu77W9D--kHiyQqiWAFyyI78aZrtS8UA43GX9tzX0cK4jK~7sArDg-30XOUfFNnaeWugzM2wWrFsfCzVXgLKakKA__" alt="Tokyo cityscape" />

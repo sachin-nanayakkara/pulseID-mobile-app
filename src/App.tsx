@@ -6,7 +6,7 @@ import './App.css'
 function App() {
 
  // const Home = lazy(() => import('./pages/home/Home.tsx'));
- const CityOfLanding = lazy(() => import('./pages/cityOfferLanding/CityOfferLanding.tsx'));
+ const CityOfLanding = lazy(() => import('./pages/cityOfferDetailLanding/CityOfferDetailLanding.tsx'));
 
  return (
     <>

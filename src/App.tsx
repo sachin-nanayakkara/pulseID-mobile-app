@@ -12,7 +12,7 @@ function App() {
 
  return (
     <>
-        <Router basename="/test-actions">
+        <Router basename="/pulseID-mobile-app">
             <Suspense fallback={<div>Loading...</div>}>
                 <Routes>
                   <Route path="/" element={<CityOfferLanding />} />

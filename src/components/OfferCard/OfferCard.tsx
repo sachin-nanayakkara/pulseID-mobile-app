@@ -108,25 +108,6 @@ const SeeMoreButton = styled.button`
   }
 `;
 
-const ProgressDots = styled.div`
-  position: absolute;
-  bottom: 6rem;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  gap: 0.375rem;
-  z-index: 10;
-`;
-
-const Dot = styled.div<{ $active: boolean }>`
-  width: 0.375rem;
-  height: 0.375rem;
-  border-radius: 50%;
-  background-color: ${props => props.$active ? '#f97316' : 'rgba(255, 255, 255, 0.6)'};
-  transition: background-color 300ms;
-`;
-
 interface OfferCardProps {
   images?: string[];
   title?: string;

@@ -120,7 +120,7 @@ type OfferCardProps = {
 }
 
 const OfferCard: React.FC<OfferCardProps> = ({
-                                               images = ["/api/placeholder/400/300", "/api/placeholder/400/300", "/api/placeholder/400/300"],
+                                               images = [],
                                                title = "Parfaiteria bel",
                                                location = "Tokyo",
                                                rating = 5.0,

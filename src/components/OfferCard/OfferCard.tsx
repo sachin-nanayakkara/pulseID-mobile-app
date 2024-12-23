@@ -225,11 +225,6 @@ const OfferCard: React.FC<OfferCardProps> = ({
         </RatingContainer>
         <SeeMoreButton onClick={onSeeMore}>See more</SeeMoreButton>
       </ContentContainer>
-      <ProgressDots>
-        {images.map((_, index) => (
-          <Dot key={index} $active={index === currentIndex} />
-        ))}
-      </ProgressDots>
     </CardContainer>
     </>
   );

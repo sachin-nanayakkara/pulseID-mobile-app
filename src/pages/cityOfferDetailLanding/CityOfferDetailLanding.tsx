@@ -64,30 +64,49 @@ const CircleButton = styled.button`
     }
 `;
 
-const PageTitle = styled.h1`
-  color: white;
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin: 0;
-  position: absolute;
-  top: 1.25rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
+const TimerControl = styled(CircleButton)`
+    position: absolute;
+    bottom: 7rem;
+    right: 1rem;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.6);
+
+    svg {
+        color: white;
+    }
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    @media (min-width: 768px) {
+        bottom: 1rem;
+    }
 `;
 
+const PageTitle = styled.h1`
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    position: absolute;
+    top: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+`;
 
 const CarouselContainer = styled.div`
-  position: relative;
-  width: 100%;
-  max-width: 100vw;
-  margin: 0 auto;
-  height: 100vh;
+    position: relative;
+    width: 100%;
+    max-width: 100vw;
+    margin: 0 auto;
+    height: 100vh;
 
-  @media (min-width: 768px) {
-    max-width: 32rem;
-    height: auto;
-  }
+    @media (min-width: 768px) {
+        max-width: 32rem;
+        height: auto;
+    }
 `;
 
 const MainImageContainer = styled.div`
@@ -289,31 +308,63 @@ const NavigationButton = styled.button<NavigationButtonProps>`
     ${(props) => (props.$position === 'left' ? 'left: 1rem;' : 'right: 1rem;')}
 
     @media (max-width: 767px) {
-    display: none;
-}
+        display: none;
+    }
 `;
 
 const CityOfferDetailLanding = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-
-  // @ts-ignore
-  const items = useSelector((state) => state.images.items);
+  const items = useSelector((state: any) => state.images.items);
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [dragOffset, setDragOffset] = useState<number>(0);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isFavorited, setIsFavorited] = useState<boolean>(false);
+
+  const SLIDE_INTERVAL = 3000; // 3 seconds per slide
+  const minSwipeDistance = 50;
 
   useEffect(() => {
     const itemIndex = items.findIndex((item: { id: number; }) => item.id === Number(id));
     handleImageClick(itemIndex);
   }, []);
 
-  const minSwipeDistance = 50;
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+
+    const startTimer = () => {
+      intervalId = setInterval(() => {
+        if (!isPaused && !isDragging) {
+          setCurrentIndex(current =>
+            current < items.length - 1 ? current + 1 : 0
+          );
+        }
+      }, SLIDE_INTERVAL);
+    };
+
+    startTimer();
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [isPaused, isDragging, items.length]);
+
+  useEffect(() => {
+    if (isDragging) {
+      setIsPaused(true);
+    }
+  }, [isDragging]);
+
+  const toggleTimer = () => {
+    setIsPaused(!isPaused);
+  };
 
   const handleImageClick = (index: number) => {
     if (!isDragging) {
@@ -400,13 +451,14 @@ const CityOfferDetailLanding = () => {
       </NavigationHeader>
 
       <PageTitle>Dessert</PageTitle>
+
       <MainImageContainer
         ref={containerRef}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {items.map((image : ImageItem, index: number) => (
+        {items.map((image: ImageItem, index: number) => (
           <ImageSlide
             key={image.id}
             $sliding={isDragging}
@@ -417,6 +469,12 @@ const CityOfferDetailLanding = () => {
           </ImageSlide>
         ))}
       </MainImageContainer>
+
+      <TimerControl
+        onClick={toggleTimer}
+        aria-label={isPaused ? 'Resume slideshow' : 'Pause slideshow'}
+      >
+      </TimerControl>
 
       <NavigationButton onClick={handlePrevious} $position="left" aria-label="Previous image">
         ←

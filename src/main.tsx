@@ -12,7 +12,6 @@ import { CustomThemeProvider } from './utils/contexts/ThemeContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-      <ThemeProvider theme={theme}>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <CustomThemeProvider>
@@ -20,6 +19,5 @@ createRoot(document.getElementById('root')!).render(
           </CustomThemeProvider>
         </ThemeProvider>
       </Provider>
-      </ThemeProvider>
     </StrictMode>,
 )

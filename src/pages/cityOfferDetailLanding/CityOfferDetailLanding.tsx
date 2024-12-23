@@ -447,7 +447,7 @@ const CityOfferDetailLanding = () => {
               <ThumbnailImage src={image.images} alt={image.name} />
               {index === items.length - 1 && (
                 <MoreItemsOverlay>
-                  <MoreItemsText>+{items.length - 10}</MoreItemsText>
+                  <MoreItemsText>+{items.length}</MoreItemsText>
                 </MoreItemsOverlay>
               )}
             </ThumbnailButton>

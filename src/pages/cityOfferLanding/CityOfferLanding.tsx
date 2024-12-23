@@ -280,7 +280,7 @@ const CityOffersLanding = () => {
   const dispatch = useDispatch();
 
   const handleDotClick = React.useCallback((index: number) => {
-    setCurrentSlide(index);
+     console.log(index);
   }, []);
 
   const totalSlides = 3;

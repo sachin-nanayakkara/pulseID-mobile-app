@@ -108,7 +108,7 @@ const SeeMoreButton = styled.button`
   }
 `;
 
-interface OfferCardProps {
+type OfferCardProps = {
   images?: string[];
   title?: string;
   location?: string;

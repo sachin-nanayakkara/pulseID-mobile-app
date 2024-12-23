@@ -4,23 +4,23 @@ import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 
-interface ImageSlideProps {
+type ImageSlideProps = {
   $active?: boolean;
   $sliding?: boolean;
   $offset?: number;
 }
 
-interface ImageItem {
+type ImageItem = {
   id: number;
   name: string;
   images: string;
 }
 
-interface NavigationButtonProps {
+type NavigationButtonProps = {
   $position: 'left' | 'right';
 }
 
-interface Image {
+type Image = {
   id: number;
   src: string;
   alt: string;

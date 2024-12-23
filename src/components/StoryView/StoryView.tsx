@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface City {
+type City = {
   name: string;
   image: string;
 }
 
-interface CitiesProps {
+type CitiesProps = {
   cities: City[];
 }
 

@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { useGetOffersQuery } from '../../services/apiSlice.ts';
 import { useNavigate } from 'react-router';
 
-interface MerchantData {
+type MerchantData = {
     id: string;
     image: string;
     name: string;

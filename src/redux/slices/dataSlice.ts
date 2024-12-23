@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface ImageItem {
+type ImageItem = {
   id: number;
   name: string;
   images: string;
 }
 
-interface ImagesState {
+type ImagesState = {
   items: ImageItem[];
 }
 

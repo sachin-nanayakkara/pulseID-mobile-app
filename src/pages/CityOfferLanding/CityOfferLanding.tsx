@@ -14,7 +14,7 @@ const BREAKPOINTS = {
   lg: '1024px',
 };
 
-interface MerchantData {
+type MerchantData = {
   id: string;
   image: string;
   name: string;
@@ -23,12 +23,12 @@ interface MerchantData {
   };
 }
 
-interface Merchant {
+type Merchant = {
   id: string;
   name: string;
 }
 
-interface Offer {
+type Offer = {
   id: string;
   merchant: Merchant;
 }
@@ -269,7 +269,7 @@ const AddCardButton = styled.button`
   }
 `;
 
-interface ImageItem {
+type ImageItem = {
   id: number;
   name: string;
   images: string;

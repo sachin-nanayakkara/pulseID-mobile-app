@@ -135,6 +135,7 @@ interface OfferCardProps {
   reviews?: number;
   onClose?: () => void;
   onSeeMore?: () => void;
+  onIndexChange?: (index: number) => void;
 }
 
 const OfferCard: React.FC<OfferCardProps> = ({
@@ -144,7 +145,8 @@ const OfferCard: React.FC<OfferCardProps> = ({
                                                rating = 5.0,
                                                reviews = 120,
                                                onClose,
-                                               onSeeMore
+                                               onSeeMore,
+                                               onIndexChange
                                              }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
@@ -172,11 +174,19 @@ const OfferCard: React.FC<OfferCardProps> = ({
     const isRightSwipe = distance < -50;
 
     if (isLeftSwipe && currentIndex < images.length - 1) {
-      setCurrentIndex(prev => prev + 1);
+      setCurrentIndex(prev => {
+        const newIndex = prev + 1;
+        onIndexChange?.(newIndex);
+        return newIndex;
+      });
     }
 
     if (isRightSwipe && currentIndex > 0) {
-      setCurrentIndex(prev => prev - 1);
+      setCurrentIndex(prev => {
+        const newIndex = prev - 1;
+        onIndexChange?.(newIndex);
+        return newIndex;
+      });
     }
 
     setTouchStart(0);
@@ -184,6 +194,7 @@ const OfferCard: React.FC<OfferCardProps> = ({
   };
 
   return (
+    <>
     <CardContainer>
       <CarouselWrapper
         onTouchStart={handleTouchStart}
@@ -214,13 +225,13 @@ const OfferCard: React.FC<OfferCardProps> = ({
         </RatingContainer>
         <SeeMoreButton onClick={onSeeMore}>See more</SeeMoreButton>
       </ContentContainer>
-
       <ProgressDots>
         {images.map((_, index) => (
           <Dot key={index} $active={index === currentIndex} />
         ))}
       </ProgressDots>
     </CardContainer>
+    </>
   );
 };
 

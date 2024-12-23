@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { ChevronRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGetOffersQuery } from '../../services/apiSlice.ts';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { setImages } from '../../redux/slices/dataSlice.ts';
 import OfferCard from '../../components/OfferCard/OfferCard.tsx';
+import DotWidget from '../../components/DotWidget/DotWidget.tsx';
 
 const BREAKPOINTS = {
   sm: '640px',
@@ -180,7 +181,8 @@ const CityImage = styled.div`
   height: 4rem;
   border-radius: 9999px;
   overflow: hidden;
-
+  border: 2px solid orange;
+    
   img {
     width: 100%;
     height: 100%;
@@ -270,12 +272,18 @@ const AddCardButton = styled.button`
 interface ImageItem {
   id: number;
   name: string;
-  images: string;  // Expecting an array of images
+  images: string;
 }
 
 const CityOffersLanding = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const handleDotClick = React.useCallback((index: number) => {
+    setCurrentSlide(index);
+  }, []);
+
+  const totalSlides = 3;
 
   const imageData = [
     {
@@ -286,6 +294,8 @@ const CityOffersLanding = () => {
   ];
 
   const [merchantDataGet, setMerchantData] = useState<MerchantData[]>([]);
+  const [offerDataGet, setOfferData] = useState<ImageItem[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const { data, error, isLoading } = useGetOffersQuery();
 
@@ -300,10 +310,15 @@ const CityOffersLanding = () => {
 
       const merchant = data?.offers.map((offer: Offer) => offer.merchant)
       setMerchantData(merchant);
+      setOfferData(merchantData);
       dispatch(setImages(merchantData));
       console.log('merchantData', merchantData);
     }
   }, [data]);
+
+  const handleIndexChange = (index: number) => {
+    setCurrentIndex(index);
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: </div>;
@@ -351,17 +366,19 @@ const CityOffersLanding = () => {
           </CitiesContainer>
         </Section>
         <OfferCard
-          images={[
-            "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png",
-            "https://ctlstg-cdn.pulseid.com/4zw77DJjPO/929c6859-a985-4749-8ac6-f4db15d9878c.png",
-            "https://ctlstg-cdn.pulseid.com/4zw77DJjPO/929c6859-a985-4749-8ac6-f4db15d9878c.png"
-          ]}
+          images={offerDataGet.slice(0, 3).map((item) => item.images)}
           title="Parfaiteria bel"
           location="Tokyo"
           rating={5.0}
           reviews={120}
           onClose={() => console.log('close')}
           onSeeMore={() => console.log('see more')}
+          onIndexChange={handleIndexChange}
+        />
+        <DotWidget
+          total={totalSlides}
+          current={currentIndex}
+          onDotClick={handleDotClick}
         />
 
         <SectionTitle>Add card to special offer!</SectionTitle>

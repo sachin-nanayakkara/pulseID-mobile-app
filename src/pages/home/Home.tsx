@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import CategoryButton from "../../components/categoryButton/CategoryButton.tsx";
+import CategoryButton from "../../components/CategoryButton/CategoryButton.tsx";
 import BackButtonComponent from "../../components/BackButton/BackButton.tsx";
 import CardWidget from '../../components/CardWidget/CardWidget.tsx';
 import DotWidget from '../../components/DotWidget/DotWidget.tsx';

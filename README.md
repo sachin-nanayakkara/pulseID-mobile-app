@@ -61,8 +61,8 @@ project-root/
 │   ├── services/              # API or other utility services
 │   ├── redux/                 # State management
 │   ├── styles/                # Global styles (CSS, SCSS, etc.)
-│   ├── App.jsx                # Root application component
-│   └── main.jsx               # Entry point, renders the app
+│   ├── App.tsx                # Root application component
+│   └── main.tsx               # Entry point, renders the app
 │
 ├── .gitignore                 # Specifies files to ignore in git
 ├── index.html                 # HTML template used by Vite

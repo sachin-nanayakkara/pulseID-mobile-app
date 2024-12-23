@@ -1,9 +1,9 @@
-import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js";import{c as I}from"./createLucideIcon-C7tMy7hS.js";/**
+import{d as t,r as d,j as e,u as T,c as O,R as A,e as E,s as $}from"./index-7qhWvqlc.js";import{D as B}from"./DotWidget-CPVY4tYJ.js";import{c as I}from"./createLucideIcon-KRBO82wS.js";/**
  * @license lucide-react v0.469.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
- */const O=I("ChevronRight",[["path",{d:"m9 18 6-6-6-6",key:"mthhwq"}]]),A=t.div`
+ */const R=I("ChevronRight",[["path",{d:"m9 18 6-6-6-6",key:"mthhwq"}]]),M=t.div`
   position: relative;
   border-radius: 0.75rem;
   width: 18rem;
@@ -11,27 +11,27 @@ import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js
   overflow: hidden;
   width: 100%;
   height: 100%;
-`,E=t.div`
+`,W=t.div`
   position: relative;
   aspect-ratio: 4/3;
   overflow: hidden;
-`,B=t.div`
+`,L=t.div`
   display: flex;
   height: 100%;
   transition: transform 300ms ease-out;
-  transform: translateX(${o=>o.$offset}%);
+  transform: translateX(${i=>i.$offset}%);
 `,P=t.div`
   min-width: 85%;
   padding: 0 0.5rem;
   transition: all 300ms ease;
-  opacity: ${o=>o.$active?1:.5};
-  transform: scale(${o=>o.$active?1:.9});
-`,M=t.img`
+  opacity: ${i=>i.$active?1:.5};
+  transform: scale(${i=>i.$active?1:.9});
+`,N=t.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 0.5rem;
-`,W=t.div`
+`,G=t.div`
   position: absolute;
   top: 1rem;
   left: 3.5rem;
@@ -42,7 +42,7 @@ import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js
     font-weight: 500;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   }
-`,L=t.button`
+`,H=t.button`
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -53,7 +53,7 @@ import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js
   cursor: pointer;
   z-index: 10;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-`,R=t.div`
+`,X=t.div`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -61,19 +61,19 @@ import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js
   padding: 1rem;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
   z-index: 10;
-`,N=t.h3`
+`,U=t.h3`
   color: white;
   font-size: 1.125rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-`,X=t.div`
+`,V=t.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
   color: white;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-`,H=t.button`
+`,q=t.button`
   width: 100%;
   margin-top: 1rem;
   padding: 0.75rem;
@@ -88,7 +88,7 @@ import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js
   &:hover {
     background-color: rgba(146, 64, 14, 0.9);
   }
-`,G=t.div`
+`,F=t.div`
   position: absolute;
   bottom: 6rem;
   left: 0;
@@ -101,9 +101,9 @@ import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js
   width: 0.375rem;
   height: 0.375rem;
   border-radius: 50%;
-  background-color: ${o=>o.$active?"#f97316":"rgba(255, 255, 255, 0.6)"};
+  background-color: ${i=>i.$active?"#f97316":"rgba(255, 255, 255, 0.6)"};
   transition: background-color 300ms;
-`,U=({images:o=["/api/placeholder/400/300","/api/placeholder/400/300","/api/placeholder/400/300"],title:m="Parfaiteria bel",location:f="Tokyo",rating:x=5,reviews:u=120,onClose:n,onSeeMore:b})=>{const[d,h]=l.useState(0),[g,r]=l.useState(0),[p,a]=l.useState(0),C=()=>-(d*85)+7.5,k=i=>{r(i.touches[0].clientX)},y=i=>{a(i.touches[0].clientX)},S=()=>{if(!g||!p)return;const i=g-p,s=i>50,z=i<-50;s&&d<o.length-1&&h(w=>w+1),z&&d>0&&h(w=>w-1),r(0),a(0)};return e.jsxs(A,{children:[e.jsx(E,{onTouchStart:k,onTouchMove:y,onTouchEnd:S,children:e.jsx(B,{$offset:C(),children:o.map((i,s)=>e.jsx(P,{$active:s===d,children:e.jsx(M,{src:i,alt:`Slide ${s+1}`})},s))})}),e.jsx(W,{children:e.jsx("span",{children:f})}),e.jsx(L,{onClick:n,children:"×"}),e.jsxs(R,{children:[e.jsx(N,{children:m}),e.jsxs(X,{children:[e.jsxs("div",{children:["★ ",x]}),e.jsx("span",{children:"•"}),e.jsxs("span",{children:[u," reviews"]})]}),e.jsx(H,{onClick:b,children:"See more"})]}),e.jsx(G,{children:o.map((i,s)=>e.jsx(J,{$active:s===d},s))})]})},c={sm:"640px",md:"768px",lg:"1024px"},V=t.div`
+`,K=({images:i=["/api/placeholder/400/300","/api/placeholder/400/300","/api/placeholder/400/300"],title:h="Parfaiteria bel",location:u="Tokyo",rating:b=5,reviews:w=120,onClose:j,onSeeMore:v,onIndexChange:a})=>{const[c,g]=d.useState(0),[p,s]=d.useState(0),[f,x]=d.useState(0),k=()=>-(c*85)+7.5,C=n=>{s(n.touches[0].clientX)},y=n=>{x(n.touches[0].clientX)},o=()=>{if(!p||!f)return;const n=p-f,r=n>50,z=n<-50;r&&c<i.length-1&&g(S=>{const m=S+1;return a==null||a(m),m}),z&&c>0&&g(S=>{const m=S-1;return a==null||a(m),m}),s(0),x(0)};return e.jsx(e.Fragment,{children:e.jsxs(M,{children:[e.jsx(W,{onTouchStart:C,onTouchMove:y,onTouchEnd:o,children:e.jsx(L,{$offset:k(),children:i.map((n,r)=>e.jsx(P,{$active:r===c,children:e.jsx(N,{src:n,alt:`Slide ${r+1}`})},r))})}),e.jsx(G,{children:e.jsx("span",{children:u})}),e.jsx(H,{onClick:j,children:"×"}),e.jsxs(X,{children:[e.jsx(U,{children:h}),e.jsxs(V,{children:[e.jsxs("div",{children:["★ ",b]}),e.jsx("span",{children:"•"}),e.jsxs("span",{children:[w," reviews"]})]}),e.jsx(q,{onClick:v,children:"See more"})]}),e.jsx(F,{children:i.map((n,r)=>e.jsx(J,{$active:r===c},r))})]})})},l={sm:"640px",md:"768px",lg:"1024px"},Q=t.div`
   width: 100%;
   max-width: 28rem;
   margin: 0 auto;
@@ -111,10 +111,10 @@ import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js
   min-height: 100vh;
   background-color: #f9fafb;
 
-  @media (min-width: ${c.md}) {
+  @media (min-width: ${l.md}) {
     max-width: 32rem;
   }
-`,q=t.header`
+`,_=t.header`
   background-color: rgba(255, 237, 213, 0.8);
   padding: 0.75rem 1rem;
   border-bottom-left-radius: 1.5rem;
@@ -131,64 +131,64 @@ import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js
   @media (min-width: 768px) {
     max-width: 32rem;
   }
-`,K=t.div`
+`,Y=t.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`,Q=t(O)`
+`,Z=t(R)`
   width: 1.25rem;
   height: 1.25rem;
   color: #f97316;
-`,_=t.div`
+`,ee=t.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-`,F=t.div`
+`,te=t.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-`,Y=t.span`
+`,oe=t.span`
   font-size: 0.875rem;
   color: #6b7280;
-`,Z=t.span`
+`,re=t.span`
   font-size: 0.75rem;
   color: #9ca3af;
-`,ee=t.div`
+`,ie=t.div`
   width: 2rem;
   height: 2rem;
   border-radius: 9999px;
   background-color: #e5e7eb;
   border: 2px solid white;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-`,te=t.main`
+`,ne=t.main`
   padding-top: 4rem;
   padding: 4rem 1rem 1rem 1rem;
 
-  @media (min-width: ${c.md}) {
+  @media (min-width: ${l.md}) {
     padding: 5rem 1.5rem 1.5rem 1.5rem;
   }
-`,oe=t.section`
+`,se=t.section`
   margin-bottom: 2rem;
 
-  @media (min-width: ${c.md}) {
+  @media (min-width: ${l.md}) {
     margin-bottom: 2.5rem;
   }
-`,re=t.div`
+`,ae=t.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-`,v=t.h2`
+`,D=t.h2`
     font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: 1rem;
     text-align: left; /* Aligns text to the left */
     text-align: left;
 
-  @media (min-width: ${c.md}) {
+  @media (min-width: ${l.md}) {
     font-size: 1.25rem;
   }
-`,ne=t.button`
+`,ce=t.button`
   color: #f97316;
   background: none;
   border: none;
@@ -197,7 +197,7 @@ import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js
   &:hover {
     color: #ea580c;
   }
-`,ie=t.div`
+`,de=t.div`
   display: flex;
   gap: 1rem;
   overflow-x: auto;
@@ -208,47 +208,48 @@ import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js
   &::-webkit-scrollbar {
     display: none;
   }
-`,se=t.div`
+`,le=t.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
   flex-shrink: 0;
-`,ae=t.div`
+`,me=t.div`
   width: 4rem;
   height: 4rem;
   border-radius: 9999px;
   overflow: hidden;
-
+  border: 2px solid orange;
+    
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-`,de=t.span`
+`,he=t.span`
   font-size: 0.875rem;
   color: #4b5563;
-`,ce=t.div`
+`,ge=t.div`
   background: #fff7ed;
   border-radius: 0.5rem;
   padding: 1rem;
 
-  @media (min-width: ${c.md}) {
+  @media (min-width: ${l.md}) {
     padding: 1.5rem;
   }
-`,le=t.div`
+`,pe=t.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-`,me=t.div`
+`,fe=t.div`
   h3 {
     font-size: 1.125rem;
     font-weight: 600;
     color: #f97316;
     margin-bottom: 0.25rem;
 
-    @media (min-width: ${c.md}) {
+    @media (min-width: ${l.md}) {
       font-size: 1.25rem;
     }
   }
@@ -257,12 +258,12 @@ import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js
     font-size: 0.875rem;
     color: #4b5563;
   }
-`,he=t.div`
+`,xe=t.div`
   position: relative;
   width: 6rem;
   height: 6rem;
   flex-shrink: 0;
-`,ge=t.div`
+`,ue=t.div`
   position: absolute;
   right: 0;
   bottom: 0;
@@ -271,7 +272,7 @@ import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js
   background: #fed7aa;
   border-radius: 0.5rem;
   transform: rotate(12deg);
-`,pe=t.button`
+`,be=t.button`
   background: #f97316;
   color: white;
   padding: 0.5rem 1rem;
@@ -283,4 +284,4 @@ import{d as t,r as l,j as e,u as $,c as T,e as D,s as j}from"./index-ZScR0gFy.js
   &:hover {
     background: #ea580c;
   }
-`,ue=()=>{const o=$(),m=T(),f=[{id:626,name:"Product 1",images:"https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png"}],[x,u]=l.useState([]),{data:n,error:b,isLoading:d}=D();if(l.useEffect(()=>{if(n!=null&&n.offers.length){const r=n.offers.map(a=>({id:a.merchant.id,name:a.merchant.name,images:a.merchant.image})),p=n==null?void 0:n.offers.map(a=>a.merchant);u(p),m(j(r)),console.log("merchantData",r)}},[n]),d)return e.jsx("div",{children:"Loading..."});if(b)return e.jsx("div",{children:"Error: "});const h=r=>{m(j(f)),o(`/landing/${r}`)},g=()=>{o("/landing/")};return e.jsxs(V,{children:[e.jsx(q,{children:e.jsxs(K,{children:[e.jsx(Q,{}),e.jsxs(_,{children:[e.jsxs(F,{children:[e.jsx(Y,{children:"Hi, John Doe"}),e.jsx(Z,{children:"Welcome"})]}),e.jsx(ee,{})]})]})}),e.jsxs(te,{children:[e.jsxs(oe,{children:[e.jsxs(re,{children:[e.jsx(v,{children:"Discover your city!"}),e.jsx(ne,{onClick:()=>g(),children:"View All"})]}),e.jsx(ie,{children:x.map(r=>e.jsxs(se,{children:[e.jsx(ae,{onClick:()=>h(r.id),children:e.jsx("img",{src:r.image,alt:r.name,loading:"lazy"})}),e.jsx(de,{children:r.category.name})]},r.category.name))})]}),e.jsx(U,{images:["https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png","https://ctlstg-cdn.pulseid.com/4zw77DJjPO/929c6859-a985-4749-8ac6-f4db15d9878c.png","https://ctlstg-cdn.pulseid.com/4zw77DJjPO/929c6859-a985-4749-8ac6-f4db15d9878c.png"],title:"Parfaiteria bel",location:"Tokyo",rating:5,reviews:120,onClose:()=>console.log("close"),onSeeMore:()=>console.log("see more")}),e.jsx(v,{children:"Add card to special offer!"}),e.jsx(ce,{children:e.jsxs(le,{children:[e.jsxs(me,{children:[e.jsx("h3",{children:"Get Special Offers"}),e.jsx("p",{children:"Many offers waiting for you, get it now"})]}),e.jsx(he,{children:e.jsx(ge,{})}),e.jsx(pe,{children:"Add a card"})]})})]})]})};export{ue as default};
+`,ke=()=>{const i=T(),h=O(),u=A.useCallback(o=>{console.log(o)},[]),b=3,w=[{id:626,name:"Product 1",images:"https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png"}],[j,v]=d.useState([]),[a,c]=d.useState([]),[g,p]=d.useState(0),{data:s,error:f,isLoading:x}=E();d.useEffect(()=>{if(s!=null&&s.offers.length){const o=s.offers.map(r=>({id:r.merchant.id,name:r.merchant.name,images:r.merchant.image})),n=s==null?void 0:s.offers.map(r=>r.merchant);v(n),c(o),h($(o)),console.log("merchantData",o)}},[s]);const k=o=>{p(o)};if(x)return e.jsx("div",{children:"Loading..."});if(f)return e.jsx("div",{children:"Error: "});const C=o=>{h($(w)),i(`/landing/${o}`)},y=()=>{i("/landing/")};return e.jsxs(Q,{children:[e.jsx(_,{children:e.jsxs(Y,{children:[e.jsx(Z,{}),e.jsxs(ee,{children:[e.jsxs(te,{children:[e.jsx(oe,{children:"Hi, John Doe"}),e.jsx(re,{children:"Welcome"})]}),e.jsx(ie,{})]})]})}),e.jsxs(ne,{children:[e.jsxs(se,{children:[e.jsxs(ae,{children:[e.jsx(D,{children:"Discover your city!"}),e.jsx(ce,{onClick:()=>y(),children:"View All"})]}),e.jsx(de,{children:j.map(o=>e.jsxs(le,{children:[e.jsx(me,{onClick:()=>C(o.id),children:e.jsx("img",{src:o.image,alt:o.name,loading:"lazy"})}),e.jsx(he,{children:o.category.name})]},o.category.name))})]}),e.jsx(K,{images:a.slice(0,3).map(o=>o.images),title:"Parfaiteria bel",location:"Tokyo",rating:5,reviews:120,onClose:()=>console.log("close"),onSeeMore:()=>console.log("see more"),onIndexChange:k}),e.jsx(B,{total:b,current:g,onDotClick:u}),e.jsx(D,{children:"Add card to special offer!"}),e.jsx(ge,{children:e.jsxs(pe,{children:[e.jsxs(fe,{children:[e.jsx("h3",{children:"Get Special Offers"}),e.jsx("p",{children:"Many offers waiting for you, get it now"})]}),e.jsx(xe,{children:e.jsx(ue,{})}),e.jsx(be,{children:"Add a card"})]})})]})]})};export{ke as default};

@@ -5,9 +5,9 @@ import './App.css'
 
 function App() {
 
- const CityOfLanding = lazy(() => import('./pages/cityOfferDetailLanding/CityOfferDetailLanding.tsx'));
- const CityOfferLanding = lazy(() => import('./pages/cityOfferLanding/CityOfferLanding.tsx'));
- const Home = lazy(() => import('./pages/home/Home.tsx'));
+ const CityOfLanding = lazy(() => import('./pages/CityOfferDetailLanding/CityOfferDetailLanding.tsx'));
+ const CityOfferLanding = lazy(() => import('./pages/CityOfferLanding/CityOfferLanding.tsx'));
+ const Home = lazy(() => import('./pages/Home/Home.tsx'));
  const NotFound = lazy(() => import('./pages/NotFound/NotFound.tsx'));
 
  return (

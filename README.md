@@ -1,50 +1,94 @@
-# React + TypeScript + Vite
+# React PulseID Project Documentation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a React-based application built using Vite as the bundler. Vite offers fast development, optimized builds, and is perfect for modern web applications. This documentation will walk you through how to start the project, the folder structure, and key configuration files.
+
+# Getting Started
+## Prerequisites
+
+Ensure you have the following installed on your system:
+
+Node.js (v16.8 or higher)
+Download and install from nodejs.org.
+
+npm or Yarn (npm comes bundled with Node.js)
 
 Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Installation
 
-## Expanding the ESLint configuration
+Clone the repository (if the project is hosted in a Git repository):
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+git clone <repository-url>
+cd <project-folder>
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Install dependencies:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Run one of the following commands depending on your preferred package manager.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+Using npm:
+
 ```
+npm install
+```
+
+Start the development server:
+
+After the dependencies are installed, you can start the development server with:
+
+Using npm:
+
+```
+npm run dev
+```
+
+This will start the project on http://localhost:5173, and any changes you make will automatically trigger a hot-reload.
+
+# Folder Structure
+
+```
+project-root/
+│
+├── public/                    # Static assets (images, favicon, etc.)
+│   └── index.html             # Main HTML template
+│
+├── src/                       # Source files
+│   ├── assets/                # Static files like images, fonts, etc.
+│   ├── components/            # Reusable React components
+│   ├── utils/                 # Custom React classes
+│   ├── pages/                 # React pages, each typically represents a route
+│   ├── services/              # API or other utility services
+│   ├── redux/                 # State management
+│   ├── styles/                # Global styles (CSS, SCSS, etc.)
+│   ├── App.jsx                # Root application component
+│   └── main.jsx               # Entry point, renders the app
+│
+├── .gitignore                 # Specifies files to ignore in git
+├── index.html                 # HTML template used by Vite
+├── package.json               # Project dependencies and scripts
+├── vite.config.js             # Vite configuration
+└── README.md                  # Project documentation
+```
+
+# Environment Variables
+
+You can add environment variables by creating a .env file at the project root. These variables will be available in the code and can be accessed via import.meta.env.
+
+Example .env file:
+
+```
+VITE_API_BASE_URL=https://stg-catalyst-external-distributor-api.pulseid.com/offer
+VITE_APP_API_KEY=
+VITE_APP_API_SECRET=
+```
+
+# Deployment
+
+```
+npm run build
+```
+
+This React Vite project setup ensures a fast, efficient development experience with a modern toolchain. By following the steps outlined above, you can easily get started with React development, organize your files effectively, and deploy your app seamlessly.
+
+

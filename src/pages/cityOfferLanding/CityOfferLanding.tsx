@@ -285,14 +285,6 @@ const CityOffersLanding = () => {
 
   const totalSlides = 3;
 
-  const imageData = [
-    {
-      id: 626,
-      name: "Product 1",
-      images: "https://ctlstg-cdn.pulseid.com/rklo1tAW0X/604f52b7-c998-4579-8812-5167c2a64109.png",
-    },
-  ];
-
   const [merchantDataGet, setMerchantData] = useState<MerchantData[]>([]);
   const [offerDataGet, setOfferData] = useState<ImageItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -324,7 +316,6 @@ const CityOffersLanding = () => {
   if (error) return <div>Error: </div>;
 
   const handleButton = (id : string) => {
-    dispatch(setImages(imageData));
     navigate(`/landing/${id}`);
   };
 
